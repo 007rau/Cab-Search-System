@@ -2,6 +2,7 @@ package org.codejudge.sb.service;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.codejudge.sb.entities.Driver;
 import org.codejudge.sb.repositories.DriverRepository;
 import org.codejudge.sb.request.DriverRequest;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 @NoArgsConstructor
+@Slf4j
 public class DriverService {
 
     @Autowired
@@ -38,8 +40,10 @@ public class DriverService {
                 Driver driver = driverRepository.save(driverBuilder);
                 return new DriverResponse(driver.getId(), driver.getName(), driver.getEmail(), driver.getPhoneNumber(), driver.getLicenseNumber(), driver.getCarNumber());
             }
+            log.info("unique validation failed while saving the driver details");
             return new ErrorResponse("failure", "Driver Details are not unique.");
         }
+        log.info("validation failed while saving the driver details");
         return new ErrorResponse("failure", "Driver Phone Number is not valid.");
     }
 
@@ -56,6 +60,7 @@ public class DriverService {
             driverRepository.save(byId);
             return new Response();
         }
+        log.info("validation failed while updating the driver location with id= {}", id);
         return new ErrorResponse("failure", "Driver Id is not valid.");
     }
 

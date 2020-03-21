@@ -30,10 +30,12 @@ public class PassengerController {
     public ResponseEntity<Response> getAvaiableCabs(@RequestBody Location location) {
         try {
             Response response = passengerService.getAvailableCabs(location);
+            log.info("Response for the service {}", response);
             if (response instanceof ErrorResponse)
                 return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
+            log.debug("Exception occurred in the code ", e);
             ErrorResponse errorResponse = new ErrorResponse("failure", "Interval Exception");
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }

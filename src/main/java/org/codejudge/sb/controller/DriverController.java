@@ -1,5 +1,6 @@
 package org.codejudge.sb.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.codejudge.sb.request.DriverRequest;
 import org.codejudge.sb.request.Location;
 import org.codejudge.sb.response.DriverResponse;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/api/v1/driver")
+@Slf4j
 public class DriverController {
 
     @Autowired
@@ -26,6 +28,7 @@ public class DriverController {
     public ResponseEntity<Response> registerDriver(@RequestBody DriverRequest driverRequest) {
         try {
             Response response = driverService.createDriverAccount(driverRequest);
+            log.info("Response for the service {}", response);
             if (response instanceof DriverResponse)
                 return new ResponseEntity<>(response, HttpStatus.CREATED);
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
@@ -44,6 +47,7 @@ public class DriverController {
     public ResponseEntity<Response> setLocation(@PathVariable int id, @RequestBody Location location) {
         try {
             Response response = driverService.setDriverLocation(location, id);
+            log.info("Response for the service {}", response);
             if (response instanceof ErrorResponse)
                 return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);

@@ -1,5 +1,8 @@
 package org.codejudge.sb.service;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.codejudge.sb.entities.AvailableDriver;
 import org.codejudge.sb.entities.Driver;
 import org.codejudge.sb.repositories.DriverRepository;
@@ -16,6 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
+@AllArgsConstructor
+@NoArgsConstructor
 public class PassengerService {
 
     @Autowired
@@ -50,10 +56,13 @@ public class PassengerService {
                     }
                 });
             }
+            log.info("number of available cabs= {}", availableDrivers.size());
             if (availableDrivers.size() > 0)
                 return new AvailableCabsResponse(availableDrivers);
+            log.info("No Cans found for lat = {}, long= {}", location.getLatitude(), location.getLongitude());
             return new NoCabsResponse("No cabs available!");
         }
+        log.info("validation failed while getting the cabs");
         return new ErrorResponse("failure", "Passenger Location is not valid.");
     }
 }
