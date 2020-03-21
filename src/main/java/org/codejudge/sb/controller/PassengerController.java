@@ -22,6 +22,10 @@ public class PassengerController {
     @Autowired
     private PassengerService passengerService;
 
+    /**
+     * @param location - longitude and latitude
+     * @return Http response of the request
+     */
     @PostMapping(value = "/available_cabs")
     public ResponseEntity<Response> getAvaiableCabs(@RequestBody Location location) {
         try {
@@ -30,7 +34,6 @@ public class PassengerController {
                 return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            log.info("Exception : {}", e);
             ErrorResponse errorResponse = new ErrorResponse("failure", "Interval Exception");
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }

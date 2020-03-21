@@ -21,6 +21,10 @@ public class PassengerService {
     @Autowired
     private DriverRepository driverRepository;
 
+    /**
+     * @param location - Longitude and Latitude
+     * @return response - list of available cabs, no cabs, or error
+     */
     public Response getAvailableCabs(Location location) {
         List<AvailableDriver> availableDrivers = new ArrayList<>();
         if (location.getLongitude() != null && location.getLatitude() != null) {

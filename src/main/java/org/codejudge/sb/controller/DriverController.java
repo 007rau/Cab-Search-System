@@ -18,6 +18,10 @@ public class DriverController {
     @Autowired
     private DriverService driverService;
 
+    /**
+     * @param driverRequest - input request to the server
+     * @return Http response of the request
+     */
     @PostMapping(value = "/register")
     public ResponseEntity<Response> registerDriver(@RequestBody DriverRequest driverRequest) {
         try {
@@ -31,6 +35,11 @@ public class DriverController {
         }
     }
 
+    /**
+     * @param id - driver id
+     * @param location - longitude and latitude
+     * @return Http response of the request
+     */
     @PostMapping(value = "/{id}/sendLocation")
     public ResponseEntity<Response> setLocation(@PathVariable int id, @RequestBody Location location) {
         try {

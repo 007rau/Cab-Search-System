@@ -8,7 +8,6 @@ import org.codejudge.sb.request.DriverRequest;
 import org.codejudge.sb.request.Location;
 import org.codejudge.sb.response.DriverResponse;
 import org.codejudge.sb.response.ErrorResponse;
-import org.codejudge.sb.response.GenericResponse;
 import org.codejudge.sb.response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +20,10 @@ public class DriverService {
     @Autowired
     private DriverRepository driverRepository;
 
+    /**
+     * @param driverRequest - driver details
+     * @return response - driver response or error
+     */
     public Response createDriverAccount(DriverRequest driverRequest) {
         if (driverRequest.getName() != null && driverRequest.getPhone_number() != null
                 && driverRequest.getCar_number() != null && driverRequest.getEmail() != null
@@ -40,6 +43,11 @@ public class DriverService {
         return new ErrorResponse("failure", "Driver Phone Number is not valid.");
     }
 
+    /**
+     * @param location - latitude and longitude
+     * @param id - driver id
+     * @return response - 200 or error
+     */
     public Response setDriverLocation(Location location, int id) {
         Driver byId = driverRepository.findById(id);
         if (byId != null && location.getLatitude() != null && location.getLongitude() != null) {
