@@ -25,23 +25,27 @@ public class PassengerService {
         List<AvailableDriver> availableDrivers = new ArrayList<>();
         if (location.getLongitude() != null && location.getLatitude() != null) {
             List<Driver> driverList = driverRepository.findAll();
-            driverList.parallelStream().forEach( x-> {
-                double dLat = Math.toRadians(x.getLatitude().subtract(location.getLatitude()).doubleValue());
-                double dLon = Math.toRadians(x.getLongitude().subtract(location.getLongitude()).doubleValue());
+            if (driverList != null) {
+                driverList.parallelStream().forEach(x -> {
+                    if (x.getLatitude() != null && x.getLongitude() != null) {
+                        double dLat = Math.toRadians(x.getLatitude().subtract(location.getLatitude()).doubleValue());
+                        double dLon = Math.toRadians(x.getLongitude().subtract(location.getLongitude()).doubleValue());
 
-                // convert to radians
-                double lat1 = Math.toRadians(location.getLatitude().doubleValue());
-                double lat2 = Math.toRadians(x.getLatitude().doubleValue());
+                        // convert to radians
+                        double lat1 = Math.toRadians(location.getLatitude().doubleValue());
+                        double lat2 = Math.toRadians(x.getLatitude().doubleValue());
 
-                // apply formulae
-                double a = Math.pow(Math.sin(dLat / 2), 2) + Math.pow(Math.sin(dLon / 2), 2) * Math.cos(lat1) * Math.cos(lat2);
+                        // apply formulae
+                        double a = Math.pow(Math.sin(dLat / 2), 2) + Math.pow(Math.sin(dLon / 2), 2) * Math.cos(lat1) * Math.cos(lat2);
 
-                double rad = 6371;
-                double c = 2 * Math.asin(Math.sqrt(a));
-                if (rad * c <= 4) {
-                    availableDrivers.add(new AvailableDriver(x.getName(), x.getCarNumber(), new BigDecimal(x.getPhoneNumber())));
-                }
-            });
+                        double rad = 6371;
+                        double c = 2 * Math.asin(Math.sqrt(a));
+                        if (rad * c <= 4) {
+                            availableDrivers.add(new AvailableDriver(x.getName(), x.getCarNumber(), new BigDecimal(x.getPhoneNumber())));
+                        }
+                    }
+                });
+            }
             if (availableDrivers.size() > 0)
                 return new AvailableCabsResponse(availableDrivers);
             return new NoCabsResponse("No cabs available!");

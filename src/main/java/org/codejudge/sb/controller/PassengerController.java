@@ -1,5 +1,6 @@
 package org.codejudge.sb.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.codejudge.sb.request.Location;
 import org.codejudge.sb.response.AvailableCabsResponse;
 import org.codejudge.sb.response.ErrorResponse;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/v1/passenger")
+@Slf4j
 public class PassengerController {
 
     @Autowired
@@ -28,6 +30,7 @@ public class PassengerController {
                 return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
+            log.info("Exception : {}", e);
             ErrorResponse errorResponse = new ErrorResponse("failure", "Interval Exception");
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
