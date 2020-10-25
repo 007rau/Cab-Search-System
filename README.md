@@ -15,3 +15,10 @@ PROJECT START STEPS:
             - java -jar ./target/spring-boot-in-docker.jar
 
     2. Go to http://localhost:8080/ in your browser to view it.
+    
+ PROJECT DESCRIPTION:
+    
+    Spring boot project for Cab Search System. It incules REST API's like 
+    1. Register a driver
+    2. Share Driver Location
+    3. Get Nearby Cabs
